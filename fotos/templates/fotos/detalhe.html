@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ foto.titulo }} — Detalhes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <header class="bg-white shadow">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center gap-3">
+      <a href="{% url 'lista_fotos' %}" class="text-sm underline hover:no-underline">← Voltar</a>
+      <h1 class="text-2xl font-bold">{{ foto.titulo }}</h1>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+      {% if foto.imagem %}
+        <img src="{{ foto.imagem.url }}" alt="{{ foto.titulo }}" class="w-full max-h-[70vh] object-cover"/>
+      {% endif %}
+      <div class="p-6">
+        <p class="text-gray-600 mb-2">📍 <strong>{{ foto.local }}</strong></p>
+        <p class="text-gray-500 text-sm mb-4">Data da viagem: {{ foto.data_viagem }}</p>
+        <p class="leading-relaxed">{{ foto.descricao }}</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
