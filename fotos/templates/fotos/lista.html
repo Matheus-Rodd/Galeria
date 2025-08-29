@@ -1,56 +1,58 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Galeria de Viagens</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <div class="header-container">
-      <h1>🌍 Galeria de Viagens</h1>
-      <a href="/admin/" class="admin-link">Admin</a>
+<body class="bg-gray-100 text-gray-900">
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-2xl md:text-3xl font-bold">🌍 Galeria de Viagens</h1>
+      <a href="/admin/" class="text-sm underline hover:no-underline">Admin</a>
     </div>
   </header>
 
-  <main class="main-container">
-    <form method="get" class="search-form">
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <form method="get" class="mb-6">
       <input
         type="text"
         name="q"
         value="{{ q }}"
         placeholder="Buscar por título, descrição ou local..."
-        class="search-input"
+        class="w-full rounded-lg border px-4 py-3 shadow-sm focus:outline-none"
       />
     </form>
 
     {% if fotos %}
-      <div class="gallery">
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {% for foto in fotos %}
-          <a href="{% url 'detalhe_foto' foto.id %}" class="gallery-item" style="--i:{{ forloop.counter0 }}">
+          <a href="{% url 'detalhe_foto' foto.id %}"
+             class="group bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition">
             {% if foto.imagem %}
-              <img src="{{ foto.imagem.url }}" alt="{{ foto.titulo }}">
+              <img src="{{ foto.imagem.url }}" alt="{{ foto.titulo }}"
+                   class="w-full h-56 object-cover group-hover:scale-[1.02] transition"/>
             {% else %}
-              <div class="no-image">Sem imagem</div>
+              <div class="w-full h-56 bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-500">Sem imagem</span>
+              </div>
             {% endif %}
-            <div class="info">
-              <h2>{{ foto.titulo }}</h2>
-              <p><i class="fa-solid fa-location-dot"></i> {{ foto.local }}</p>
-              <p class="date"><i class="fa-solid fa-calendar-days"></i> {{ foto.data_viagem }}</p>
+            <div class="p-4">
+              <h2 class="text-lg font-semibold">{{ foto.titulo }}</h2>
+              <p class="text-gray-600 text-sm">📍 {{ foto.local }}</p>
+              <p class="text-gray-400 text-xs mt-1">Data: {{ foto.data_viagem }}</p>
             </div>
           </a>
         {% endfor %}
       </div>
     {% else %}
-      <p class="no-result">Nenhum resultado para <strong>{{ q }}</strong>.</p>
+      <p class="text-gray-600">Nenhum resultado para <strong>{{ q }}</strong>.</p>
     {% endif %}
   </main>
 
-  <footer>
-    Feito com Django + CSS
+  <footer class="mt-12 py-6 text-center text-sm text-gray-500">
+    Feito com Django + Tailwind
   </footer>
 </body>
 </html>
