@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.core.paginator import Paginator
 from .models import Foto
 
 def lista_fotos(request):
@@ -9,8 +10,11 @@ def lista_fotos(request):
         fotos = fotos.filter(
             Q(titulo__icontains=q) | Q(descricao__icontains=q) | Q(local__icontains=q)
         )
+    paginator = Paginator(fotos, 6)  # 6 fotos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     contexto = {
-        'fotos': fotos,
+        'page_obj': page_obj,
         'q': q,
     }
     return render(request, 'fotos/lista.html', contexto)
